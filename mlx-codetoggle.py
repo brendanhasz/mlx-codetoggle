@@ -42,23 +42,9 @@ repl1 = r"""</title>
 O = re.sub(find1, repl1, I)
 
 # Move outputParagraph to its own div outside inlineWrapper outputs
-# TODO
-"""
-2) Replace
-
-    <div class = 'inlineWrapper outputs'>
-        <div class = "S5 lineNode"><span class = "S7"> ... </span></div>
-        <div class="outputParagraph" ... </div></div></div>
-
-with 
-
-    <div class = 'inlineWrapper outputs'>
-        <div class = "S5 lineNode"><span class = "S7"> ... </span></div>
-    </div>
-</div>  <!-- closes LineNodeBlock contiguous div -->
-    <div class = 'inlineWrapper outputs'>
-        <div class="outputParagraph" ... </div></div></div>
-"""
+find2 = r"""<div class = 'inlineWrapper outputs'>(.+?)<div class="outputParagraph"(.+?)</div></div></div>"""
+repl2 = r"""<div class = 'inlineWrapper outputs'>\1</div></div><div class = 'inlineWrapper outputs'><div class="outputParagraph"\2</div></div></div>"""
+O = re.sub(find2, repl2, O)
 
 # Add show/hide button to all codeblocks
 Ncb = 0 #number of codeblocks
@@ -67,8 +53,7 @@ def showhide_replace(match):
     global Ncb #number of code blocks
     Ncb = Ncb + 1 #increment
     return r"""<div class = "S3"><span class = "S2"><a href="javascript:showhide('codeblock"""+str(Ncb)+r"""')">Show/hide code</a></span></div>
-    <div class = 'LineNodeBlock contiguous' id='codeblock"""+str(Ncb)+r"""' style="display:none;">
-"""
+    <div class = 'LineNodeBlock contiguous' id='codeblock"""+str(Ncb)+r"""' style="display:none;">"""
 O = re.sub(find3, showhide_replace, O)
 
 # Write to input file if output not specified
