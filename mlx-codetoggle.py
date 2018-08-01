@@ -22,7 +22,7 @@ import re
 # Command line arguments
 p = argparse.ArgumentParser(description='Adds Show/hide code toggle buttons to Matlab Live Script HTML files')
 p.add_argument("FileIn", help="Filename of the input Matlab Live Script HTML file")
-p.add_argument("FileOut", default=None, help="Filename of the output file to write (with toggle buttons)")
+p.add_argument("FileOut", nargs='?', default=None, help="Filename of the output file to write (with toggle buttons)")
 args = p.parse_args()
 
 # Load file
